@@ -35,7 +35,7 @@ pipeline {
         }
       }
     }
-    stage('') {
+    stage('End') {
       steps {
         echo 'echo "servers started..."'
       }
