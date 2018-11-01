@@ -19,7 +19,7 @@ pipeline {
         bat 'echo "starting servers..."'
       }
     }
-    stage('InitiateServer') {
+    stage('Initiate') {
       parallel {
 		
         stage('Grafana') {
