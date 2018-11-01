@@ -8,45 +8,51 @@ pipeline {
     }
     stage('InitiateServer') {
       parallel {
-        stage('Grafana') {
-          steps {
-            build 'startserver-Grafana'
-          }
-        }
-        stage('Influxd') {
-          steps {
-            build 'startserver-Influxd'
-          }
-        }
-        stage('Prometheus') {
-          steps {
-            build 'startserver-Prometheus'
-          }
-        }
-        stage('ToscaExecution') {
-          steps {
-            build 'startService-ToscaCIRemoteExecutionService'
-          }
-        }
-        stage('DigiToyApplication') {
-          steps {
-            build 'startApp-DigitalToyWebapplication'
-          }
-        }
-      }
-    }
-	stage('InitiateApps') {
-      parallel {
-        stage('ToscaExecution') {
-          steps {
-            build 'startService-ToscaCIRemoteExecutionService'
-          }
-        }
-        stage('DigiToyApplication') {
-          steps {
-            build 'startApp-DigitalToyWebapplication'
-          }
-        }
+		stage('startAPPs') {
+		agent any
+		stages {
+				stage('Nested 1') {
+					steps {
+						build 'startService-ToscaCIRemoteExecutionService'
+					}
+				}
+				stage('Nested 2') {
+					steps {
+						build 'startApp-DigitalToyWebapplication'
+					}
+				}
+			}
+		}
+	    stage('startServers') {
+		agent any
+		stages {
+				stage('Grafana') {
+				  steps {
+					build 'startserver-Grafana'
+				  }
+				}
+				stage('Influxd') {
+				  steps {
+					build 'startserver-Influxd'
+				  }
+				}
+				stage('Prometheus') {
+				  steps {
+					build 'startserver-Prometheus'
+				  }
+				}
+				stage('ToscaExecution') {
+				  steps {
+					build 'startService-ToscaCIRemoteExecutionService'
+				  }
+				}
+				stage('DigiToyApplication') {
+				  steps {
+					build 'startApp-DigitalToyWebapplication'
+				  }
+				}
+			}
+		}			
       }
     }
     stage('END') {
