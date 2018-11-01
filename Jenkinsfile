@@ -1,25 +1,43 @@
 pipeline {
   agent any
   stages {
+    stage('startserver') {
+      steps {
+        bat 'echo "starting servers..."'
+      }
+    }
     stage('Servers') {
       parallel {
-        stage('Servers') {
+        stage('Grafana') {
           steps {
-            build 'startserver-Influxd'
-            build 'startserver-Prometheus'
             build 'startserver-Grafana'
           }
         }
-        stage('Application') {
+        stage('Influxd') {
           steps {
-            build 'startApp-DigitalToyWebapplication'
+            build 'startserver-Influxd'
           }
         }
-        stage('Service') {
+        stage('Prometheus') {
+          steps {
+            build 'startserver-Prometheus'
+          }
+        }
+        stage('ToscaExecution') {
           steps {
             build 'startService-ToscaCIRemoteExecutionService'
           }
         }
+        stage('DigiToyApplication') {
+          steps {
+            build 'startApp-DigitalToyWebapplication'
+          }
+        }
+      }
+    }
+    stage('') {
+      steps {
+        echo 'echo "servers started..."'
       }
     }
   }
