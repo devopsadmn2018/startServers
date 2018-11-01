@@ -5,9 +5,11 @@ pipeline {
       parallel {
         stage('Servers') {
           steps {
-            build 'startserver-Influxd'
-            build 'startserver-Prometheus'
-            build 'startserver-Grafana'
+			parallel {
+				build 'startserver-Influxd'
+				build 'startserver-Prometheus'
+				build 'startserver-Grafana'
+			}	
           }
         }
         stage('Application') {
