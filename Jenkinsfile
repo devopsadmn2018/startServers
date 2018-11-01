@@ -1,9 +1,25 @@
 pipeline {
   agent any
   stages {
-    stage('') {
-      steps {
-        build 'startserver-Influxd'
+    stage('Servers') {
+      parallel {
+        stage('Servers') {
+          steps {
+            build 'startserver-Influxd'
+            build 'startserver-Prometheus'
+            build 'startserver-Grafana'
+          }
+        }
+        stage('Application') {
+          steps {
+            build 'startApp-DigitalToyWebapplication'
+          }
+        }
+        stage('Service') {
+          steps {
+            build 'startService-ToscaCIRemoteExecutionService'
+          }
+        }
       }
     }
   }
