@@ -1,17 +1,16 @@
 pipeline {
   agent any
   stages {
-    stage('startserver') {
+    stage('START') {
       steps {
         bat 'echo "starting servers..."'
       }
     }
-    stage('Servers') {
+    stage('Initiate') {
       parallel {
         stage('Grafana') {
           steps {
-            powershell 'cd C:\\Users\\ajawale\\WorkSpace\\grafana-5.3.0\\bin'
-            powershell 'Start-Process grafana-server.exe'
+            build 'startserver-Grafana'
           }
         }
         stage('Influxd') {
@@ -36,7 +35,7 @@ pipeline {
         }
       }
     }
-    stage('End') {
+    stage('END') {
       steps {
         echo 'echo "servers started..."'
       }
