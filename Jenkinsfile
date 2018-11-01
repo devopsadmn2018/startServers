@@ -10,7 +10,7 @@ pipeline {
       parallel {
         stage('Grafana') {
           steps {
-            build 'startserver-Grafana'
+            powershell 'cd C:\\Users\\ajawale\\WorkSpace\\grafana-5.3.0\\bin Start-Process grafana-server.exe'
           }
         }
         stage('Influxd') {
