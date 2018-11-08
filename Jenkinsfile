@@ -41,21 +41,21 @@ pipeline {
           }
         }
         stage('Prometheus') {
-        //when { allof { expression { params.CHOICE ==~ /(Stop)/ }; expression { return params.Prometheus } }}
+        when { allOf { expression { params.CHOICE ==~ /(Stop)/ }; expression { return params.Prometheus } }}
 		//when { expression { return params.Prometheus } }
           steps {
             build 'startserver-Prometheus'
           }
         }
         stage('ToscaExecution') {
-        //when { allof { expression { params.CHOICE ==~ /(Stop)/ }; expression { return params.ToscaCIRemoteExecutionService } }}
+        when { allOf { expression { params.CHOICE ==~ /(Stop)/ }; expression { return params.ToscaCIRemoteExecutionService } }}
 		//when { expression { return params.ToscaCIRemoteExecutionService } }
           steps {
             build 'startService-ToscaCIRemoteExecutionService'
           }
         }
         stage('DigiToyApplication') {
-        //when { allof { expression { params.CHOICE ==~ /(Stop)/ }; expression { return params.DigitalToyWebapplication } }}
+        when { allOf { expression { params.CHOICE ==~ /(Stop)/ }; expression { return params.DigitalToyWebapplication } }}
 		//when { expression { return params.DigitalToyWebapplication } }
           steps {
             build 'startApp-DigitalToyWebapplication'
