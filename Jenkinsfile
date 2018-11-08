@@ -24,34 +24,34 @@ pipeline {
       parallel {
 		// when { expression { params.CHOICE ==~ /(Stop)/ } }
 		stage('Grafana') {
-        when { affof { expression { params.CHOICE ==~ /(Stop)/ }; expression { return params.Grafana } }}
+        when { allof { expression { params.CHOICE ==~ /(Stop)/ }; expression { return params.Grafana } }}
 		steps {
             build 'startserver-Grafana'
           }
         }
         stage('Influxd') {
-        when { affof { expression { params.CHOICE ==~ /(Stop)/ }; expression { return params.Influxd } }}
+        when { allof { expression { params.CHOICE ==~ /(Stop)/ }; expression { return params.Influxd } }}
 		//when { expression { return params.Influxd } }
           steps {
             build 'startserver-Influxd'
           }
         }
         stage('Prometheus') {
-        when { affof { expression { params.CHOICE ==~ /(Stop)/ }; expression { return params.Prometheus } }}
+        when { allof { expression { params.CHOICE ==~ /(Stop)/ }; expression { return params.Prometheus } }}
 		//when { expression { return params.Prometheus } }
           steps {
             build 'startserver-Prometheus'
           }
         }
         stage('ToscaExecution') {
-        when { affof { expression { params.CHOICE ==~ /(Stop)/ }; expression { return params.ToscaCIRemoteExecutionService } }}
+        when { allof { expression { params.CHOICE ==~ /(Stop)/ }; expression { return params.ToscaCIRemoteExecutionService } }}
 		//when { expression { return params.ToscaCIRemoteExecutionService } }
           steps {
             build 'startService-ToscaCIRemoteExecutionService'
           }
         }
         stage('DigiToyApplication') {
-        when { affof { expression { params.CHOICE ==~ /(Stop)/ }; expression { return params.DigitalToyWebapplication } }}
+        when { allof { expression { params.CHOICE ==~ /(Stop)/ }; expression { return params.DigitalToyWebapplication } }}
 		//when { expression { return params.DigitalToyWebapplication } }
           steps {
             build 'startApp-DigitalToyWebapplication'
