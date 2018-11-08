@@ -54,7 +54,7 @@ pipeline {
             }
           }
           steps {
-            build 'stopProcess', parameters[string(name: "processToStop", value: "grafana-server.exe")]
+            build job: "stopProcess", parameters[string(name: "processToStop", value: "grafana-server.exe")]
           }
 		  /*steps {
 					build job: "job2", parameters[string(name: "var", value: "${VAR})]
