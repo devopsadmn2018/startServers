@@ -75,7 +75,7 @@ pipeline {
 
           }
           steps {
-            build 'stopProcess'
+            build job: 'stopProcess', parameters: [[$class: 'StringParameterValue', name: 'processToStop', value: "Influxd.exe"]]
           }
         }
         stage('Prometheus') {
@@ -93,7 +93,7 @@ pipeline {
 
           }
           steps {
-            build 'stopProcess'
+            build job: 'stopProcess', parameters: [[$class: 'StringParameterValue', name: 'processToStop', value: "Prometheus.exe"]]
           }
         }
         stage('ToscaExecution') {
@@ -111,7 +111,7 @@ pipeline {
 
           }
           steps {
-            build 'stopProcess'
+            build job: 'stopProcess', parameters: [[$class: 'StringParameterValue', name: 'processToStop', value: "ToscaCIRemoteExecutionService.exe"]]
           }
         }
         stage('DigiToyApplication') {
@@ -129,7 +129,7 @@ pipeline {
 
           }
           steps {
-            build 'stopProcess'
+            build job: 'stopProcess', parameters: [[$class: 'StringParameterValue', name: 'processToStop', value: "javaw.exe"]]
           }
         }
       }
