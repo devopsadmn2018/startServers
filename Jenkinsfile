@@ -24,7 +24,7 @@ pipeline {
       parallel {
 		// when { expression { params.CHOICE ==~ /(Start)/ } }
 		stage('Grafana') {
-        when { allOf { expression { params.CHOICE == /(Start)/ }; expression { return params.Grafana } }}
+        when { allOf { expression { params.CHOICE ==~ /(Start)/ }; expression { return params.Grafana } }}
 		steps {
             build 'startserver-Grafana'
           }
