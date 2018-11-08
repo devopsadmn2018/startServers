@@ -19,36 +19,40 @@ pipeline {
         bat 'echo "starting servers..."'
       }
     }
-	when { expression { params.CHOICE ==~ /(Stop)/ } }
+	
     stage('Initiate') {
       parallel {
-		
+		// when { expression { params.CHOICE ==~ /(Stop)/ } }
 		stage('Grafana') {
-        when { expression { return params.Grafana } }
+        when { affof { expression { params.CHOICE ==~ /(Stop)/ }; expression { return params.Grafana } }}
 		steps {
             build 'startserver-Grafana'
           }
         }
         stage('Influxd') {
-		when { expression { return params.Influxd } }
+        when { affof { expression { params.CHOICE ==~ /(Stop)/ }; expression { return params.Influxd } }}
+		//when { expression { return params.Influxd } }
           steps {
             build 'startserver-Influxd'
           }
         }
         stage('Prometheus') {
-		when { expression { return params.Prometheus } }
+        when { affof { expression { params.CHOICE ==~ /(Stop)/ }; expression { return params.Prometheus } }}
+		//when { expression { return params.Prometheus } }
           steps {
             build 'startserver-Prometheus'
           }
         }
         stage('ToscaExecution') {
-		when { expression { return params.ToscaCIRemoteExecutionService } }
+        when { affof { expression { params.CHOICE ==~ /(Stop)/ }; expression { return params.ToscaCIRemoteExecutionService } }}
+		//when { expression { return params.ToscaCIRemoteExecutionService } }
           steps {
             build 'startService-ToscaCIRemoteExecutionService'
           }
         }
         stage('DigiToyApplication') {
-		when { expression { return params.DigitalToyWebapplication } }
+        when { affof { expression { params.CHOICE ==~ /(Stop)/ }; expression { return params.DigitalToyWebapplication } }}
+		//when { expression { return params.DigitalToyWebapplication } }
           steps {
             build 'startApp-DigitalToyWebapplication'
           }
