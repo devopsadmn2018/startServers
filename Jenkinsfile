@@ -24,7 +24,7 @@ pipeline {
       parallel {
 		// when { expression { params.CHOICE ==~ /(Stop)/ } }
 		stage('Grafana') {
-        when { allof { 
+        when { allOf { 
 					expression { params.CHOICE == /(Stop)/ }
 					expression { return params.Grafana } 
 					}
@@ -34,7 +34,7 @@ pipeline {
           }
         }
         stage('Influxd') {
-        //when { allof { expression { params.CHOICE ==~ /(Stop)/ }; expression { return params.Influxd } }}
+        //when { allOf { expression { params.CHOICE ==~ /(Stop)/ }; expression { return params.Influxd } }}
 		//when { expression { return params.Influxd } }
           steps {
             build 'startserver-Influxd'
