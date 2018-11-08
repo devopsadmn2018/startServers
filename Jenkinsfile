@@ -9,91 +9,31 @@ pipeline {
     stage('StartServers') {
       parallel {
         stage('Grafana') {
-          when {
-            allOf {
-              expression {
-                params.CHOICE ==~ /(Start)/
-              }
-
-              expression {
-                return params.Grafana
-              }
-
-            }
-
-          }
+          when { allOf { expression { params.CHOICE ==~ /(Start)/ }; expression { return params.Grafana } }}
           steps {
             build 'startserver-Grafana'
           }
         }
         stage('Influxd') {
-          when {
-            allOf {
-              expression {
-                params.CHOICE ==~ /(Start)/
-              }
-
-              expression {
-                return params.Influxd
-              }
-
-            }
-
-          }
+          when { allOf { expression { params.CHOICE ==~ /(Start)/ }; expression { return params.Influxd } }}
           steps {
             build 'startserver-Influxd'
           }
         }
         stage('Prometheus') {
-          when {
-            allOf {
-              expression {
-                params.CHOICE ==~ /(Start)/
-              }
-
-              expression {
-                return params.Prometheus
-              }
-
-            }
-
-          }
+          when { allOf { expression { params.CHOICE ==~ /(Start)/ }; expression { return params.Prometheus } } }
           steps {
             build 'startserver-Prometheus'
           }
         }
         stage('ToscaExecution') {
-          when {
-            allOf {
-              expression {
-                params.CHOICE ==~ /(Start)/
-              }
-
-              expression {
-                return params.ToscaCIRemoteExecutionService
-              }
-
-            }
-
-          }
+          when { allOf { expression { params.CHOICE ==~ /(Start)/ }; expression { return params.ToscaCIRemoteExecutionService} }}
           steps {
             build 'startService-ToscaCIRemoteExecutionService'
           }
         }
         stage('DigiToyApplication') {
-          when {
-            allOf {
-              expression {
-                params.CHOICE ==~ /(Start)/
-              }
-
-              expression {
-                return params.DigitalToyWebapplication
-              }
-
-            }
-
-          }
+          when {allOf {expression { params.CHOICE ==~ /(Start)/ }; expression { return params.DigitalToyWebapplication } }}
           steps {
             build 'startApp-DigitalToyWebapplication'
           }
@@ -108,17 +48,17 @@ pipeline {
               expression {
                 params.CHOICE ==~ /(Stop)/
               }
-
               expression {
                 return params.Grafana
               }
-
             }
-
           }
           steps {
-            build 'stopProcess'
+            build 'stopProcess', parameters[string(name: "processToStop", value: "grafana-server.exe")]
           }
+		  /*steps {
+					build job: "job2", parameters[string(name: "var", value: "${VAR})]
+				}*/
         }
         stage('Influxd') {
           when {
