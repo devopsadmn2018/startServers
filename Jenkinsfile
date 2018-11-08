@@ -19,10 +19,11 @@ pipeline {
         bat 'echo "starting servers..."'
       }
     }
+	when { expression { params.CHOICE ==~ /(Stop)/ } }
     stage('Initiate') {
       parallel {
 		
-        stage('Grafana') {
+		stage('Grafana') {
         when { expression { return params.Grafana } }
 		steps {
             build 'startserver-Grafana'
