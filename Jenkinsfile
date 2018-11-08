@@ -20,7 +20,7 @@ pipeline {
       }
     }
 	
-    stage('Initiate') {
+    stage('StartServers') {
       parallel {
 		// when { expression { params.CHOICE ==~ /(Start)/ } }
 		stage('Grafana') {
@@ -59,6 +59,47 @@ pipeline {
         }
       }
     }
+	
+	stage('StopServers') {
+      parallel {
+		// when { expression { params.CHOICE ==~ /(Stop)/ } }
+		stage('Grafana') {
+        when { allOf { expression { params.CHOICE ==~ /(Stop)/ }; expression { return params.Grafana } }}
+		steps {
+            build 'startserver-Grafana'
+          }
+        }
+        stage('Influxd') {
+        when { allOf { expression { params.CHOICE ==~ /(Stop)/ }; expression { return params.Influxd } }}
+		//when { expression { return params.Influxd } }
+          steps {
+            build 'startserver-Influxd'
+          }
+        }
+        stage('Prometheus') {
+        when { allOf { expression { params.CHOICE ==~ /(Stop)/ }; expression { return params.Prometheus } }}
+		//when { expression { return params.Prometheus } }
+          steps {
+            build 'startserver-Prometheus'
+          }
+        }
+        stage('ToscaExecution') {
+        when { allOf { expression { params.CHOICE ==~ /(Stop)/ }; expression { return params.ToscaCIRemoteExecutionService } }}
+		//when { expression { return params.ToscaCIRemoteExecutionService } }
+          steps {
+            build 'startService-ToscaCIRemoteExecutionService'
+          }
+        }
+        stage('DigiToyApplication') {
+        when { allOf { expression { params.CHOICE ==~ /(Stop)/ }; expression { return params.DigitalToyWebapplication } }}
+		//when { expression { return params.DigitalToyWebapplication } }
+          steps {
+            build 'startApp-DigitalToyWebapplication'
+          }
+        }
+      }
+    }
+	
     stage('END') {
       steps {
         echo 'echo "servers started..."'
