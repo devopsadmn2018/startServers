@@ -22,10 +22,10 @@ pipeline {
 	
     stage('Initiate') {
       parallel {
-		// when { expression { params.CHOICE ==~ /(Stop)/ } }
+		// when { expression { params.CHOICE ==~ /(Start)/ } }
 		stage('Grafana') {
         when { allOf { 
-					expression { params.CHOICE == /(Stop)/ }
+					expression { params.CHOICE == /(Start)/ }
 					expression { return params.Grafana } 
 					}
 			}
@@ -34,28 +34,28 @@ pipeline {
           }
         }
         stage('Influxd') {
-        //when { allOf { expression { params.CHOICE ==~ /(Stop)/ }; expression { return params.Influxd } }}
+        //when { allOf { expression { params.CHOICE ==~ /(Start)/ }; expression { return params.Influxd } }}
 		//when { expression { return params.Influxd } }
           steps {
             build 'startserver-Influxd'
           }
         }
         stage('Prometheus') {
-        when { allOf { expression { params.CHOICE ==~ /(Stop)/ }; expression { return params.Prometheus } }}
+        when { allOf { expression { params.CHOICE ==~ /(Start)/ }; expression { return params.Prometheus } }}
 		//when { expression { return params.Prometheus } }
           steps {
             build 'startserver-Prometheus'
           }
         }
         stage('ToscaExecution') {
-        when { allOf { expression { params.CHOICE ==~ /(Stop)/ }; expression { return params.ToscaCIRemoteExecutionService } }}
+        when { allOf { expression { params.CHOICE ==~ /(Start)/ }; expression { return params.ToscaCIRemoteExecutionService } }}
 		//when { expression { return params.ToscaCIRemoteExecutionService } }
           steps {
             build 'startService-ToscaCIRemoteExecutionService'
           }
         }
         stage('DigiToyApplication') {
-        when { allOf { expression { params.CHOICE ==~ /(Stop)/ }; expression { return params.DigitalToyWebapplication } }}
+        when { allOf { expression { params.CHOICE ==~ /(Start)/ }; expression { return params.DigitalToyWebapplication } }}
 		//when { expression { return params.DigitalToyWebapplication } }
           steps {
             build 'startApp-DigitalToyWebapplication'
