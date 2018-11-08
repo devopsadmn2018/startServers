@@ -7,11 +7,11 @@ pipeline {
         booleanParam(name: 'Prometheus', defaultValue: true, description: 'Toggle this value')
         booleanParam(name: 'ToscaCIRemoteExecutionService', defaultValue: false, description: 'Toggle this value')
         booleanParam(name: 'DigitalToyWebapplication', defaultValue: false, description: 'Toggle this value')
-
+/*
 		string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
         text(name: 'BIOGRAPHY', defaultValue: '', description: 'Enter some information about the person')
         password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
-        file(name: "FILE", description: "Choose a file to upload")
+        file(name: "FILE", description: "Choose a file to upload")*/
     }
   stages {
     stage('START') {
