@@ -34,7 +34,7 @@ pipeline {
           }
         }
         stage('Influxd') {
-        //when { allOf { expression { params.CHOICE ==~ /(Start)/ }; expression { return params.Influxd } }}
+        when { allOf { expression { params.CHOICE ==~ /(Start)/ }; expression { return params.Influxd } }}
 		//when { expression { return params.Influxd } }
           steps {
             build 'startserver-Influxd'
